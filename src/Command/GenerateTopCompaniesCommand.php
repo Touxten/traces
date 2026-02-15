@@ -56,6 +56,12 @@ class GenerateTopCompaniesCommand extends AbstractCommand
     {
         parent::execute($input, $output);
 
+        if (!file_exists('gh_repositories.json')) {
+            $this->output->writeLn('gh_repositories.json is missing. Please execute `php bin/console traces:fetch:repositories`');
+
+            return 1;
+        }
+
         if (!file_exists(self::FILE_PULLREQUESTS)) {
             $this->output->writeLn(sprintf(
                 '%s is missing. Please execute `php bin/console traces:fetch:pullrequests:merged`',
